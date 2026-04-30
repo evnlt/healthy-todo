@@ -1,0 +1,53 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HealthyTodo.DAL", "src\HealthyTodo.DAL\HealthyTodo.DAL.csproj", "{B6A48EA8-ED98-423E-8080-0A9A8E5CE207}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HealthyTodo.Models", "src\HealthyTodo.Models\HealthyTodo.Models.csproj", "{5CAA0A4C-44F2-4A74-8EEF-4112899AD57B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "common", "common", "{7F3DECDC-62AF-4C32-8FF0-155BA695DDE8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HealthyTodo.Common", "src\HealthyTodo.Common\HealthyTodo.Common.csproj", "{B2A554A0-9DBB-470F-9E5A-90AB49C7C58E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HealthyTodo.BLL", "src\HealthyTodo.BLL\HealthyTodo.BLL.csproj", "{4557D323-E0A8-4A2F-8546-35E8AD101A3A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HealthyTodo.API", "src\HealthyTodo.API\HealthyTodo.API.csproj", "{69919CE5-33D6-4C33-98C3-0BA5A802E9D6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HealthyTodo.API.Models", "src\HealthyTodo.API.Models\HealthyTodo.API.Models.csproj", "{6A82A6F8-4677-4D94-9F4C-0FB37DC14957}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{4E26A3FC-75FA-48F1-B236-052420531F64}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B6A48EA8-ED98-423E-8080-0A9A8E5CE207}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B6A48EA8-ED98-423E-8080-0A9A8E5CE207}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B6A48EA8-ED98-423E-8080-0A9A8E5CE207}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B6A48EA8-ED98-423E-8080-0A9A8E5CE207}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5CAA0A4C-44F2-4A74-8EEF-4112899AD57B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5CAA0A4C-44F2-4A74-8EEF-4112899AD57B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5CAA0A4C-44F2-4A74-8EEF-4112899AD57B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5CAA0A4C-44F2-4A74-8EEF-4112899AD57B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B2A554A0-9DBB-470F-9E5A-90AB49C7C58E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B2A554A0-9DBB-470F-9E5A-90AB49C7C58E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B2A554A0-9DBB-470F-9E5A-90AB49C7C58E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B2A554A0-9DBB-470F-9E5A-90AB49C7C58E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4557D323-E0A8-4A2F-8546-35E8AD101A3A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4557D323-E0A8-4A2F-8546-35E8AD101A3A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4557D323-E0A8-4A2F-8546-35E8AD101A3A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4557D323-E0A8-4A2F-8546-35E8AD101A3A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{69919CE5-33D6-4C33-98C3-0BA5A802E9D6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{69919CE5-33D6-4C33-98C3-0BA5A802E9D6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{69919CE5-33D6-4C33-98C3-0BA5A802E9D6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{69919CE5-33D6-4C33-98C3-0BA5A802E9D6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6A82A6F8-4677-4D94-9F4C-0FB37DC14957}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6A82A6F8-4677-4D94-9F4C-0FB37DC14957}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6A82A6F8-4677-4D94-9F4C-0FB37DC14957}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6A82A6F8-4677-4D94-9F4C-0FB37DC14957}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{B2A554A0-9DBB-470F-9E5A-90AB49C7C58E} = {7F3DECDC-62AF-4C32-8FF0-155BA695DDE8}
+	EndGlobalSection
+EndGlobal
