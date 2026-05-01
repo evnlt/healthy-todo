@@ -26,10 +26,12 @@ public static class ServiceCollectionExtensions
         services.AddTransient<IMongoDatabase>(provider => provider.GetService<IMongoClient>()
             !.GetDatabase(settings.DatabaseName));
 
-
         services
             .AddTransient<ITodoListStore, TodoListStore>()
             .AddTransient<IUserStore, UserStore>();
+        
+        services
+            .AddScoped<SampleDataSeeder>();
 
         return services;
     }

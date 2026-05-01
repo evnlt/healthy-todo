@@ -1,10 +1,11 @@
 ﻿namespace HealthyTodo.Models.TodoList;
 
-public class TodoListModel // TODO - check it 
+public class TodoListModel
 {
-    public string Id { get; set; } = default!;
+    public int Id { get; set; }
     public string Title { get; set; } = default!;
     public DateTime CreatedDate { get; set; }
     
     public int OwnerId { get; set; }
+    public List<int> SharedUserIds { get; set; } = default!;
 }

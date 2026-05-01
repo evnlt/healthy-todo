@@ -2,7 +2,7 @@
 
 namespace HealthyTodo.DAL.Stores;
 
-public class UserStore : IUserStore
+internal class UserStore : IUserStore
 {
     
 }

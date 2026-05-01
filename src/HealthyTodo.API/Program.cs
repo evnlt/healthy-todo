@@ -1,6 +1,8 @@
 using HealthyTodo.API.Settings;
 using HealthyTodo.BLL;
+using HealthyTodo.BLL.Exceptions;
 using HealthyTodo.DAL;
+using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Versioning;
 
@@ -58,8 +60,36 @@ app.UseHttpsRedirection();
 
 app.MapControllers();
 
+app.UseExceptionHandler(app =>
+{
+    app.Run(async context =>
+    {
+        var exception = context.Features.Get<IExceptionHandlerFeature>()?.Error;
+
+        context.Response.ContentType = "application/json";
+
+        context.Response.StatusCode = exception switch
+        {
+            NotFoundException => StatusCodes.Status404NotFound,
+            ForbiddenException => StatusCodes.Status403Forbidden,
+            BadRequestException => StatusCodes.Status400BadRequest,
+            _ => StatusCodes.Status500InternalServerError
+        };
+
+        var response = new
+        {
+            error = exception?.Message
+        };
+
+        await context.Response.WriteAsJsonAsync(response);
+    });
+});
+
 app.Run();
 
-// TODO - check everything for internal
+using var scope = app.Services.CreateScope();
+var seeder = scope.ServiceProvider.GetRequiredService<SampleDataSeeder>();
+await seeder.SeedAsync();
 
-// docker run -d -p 27017:27017 --name mongodb mongo:7
+
+// TODO - check everything for internal

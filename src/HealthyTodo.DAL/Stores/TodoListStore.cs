@@ -5,7 +5,6 @@ using HealthyTodo.DAL.Constants;
 using HealthyTodo.DAL.Entities;
 using HealthyTodo.DAL.Extensions;
 using HealthyTodo.Models.TodoList;
-using MongoDB.Bson;
 using MongoDB.Driver;
 
 namespace HealthyTodo.DAL.Stores;
@@ -24,25 +23,14 @@ internal class TodoListStore : ITodoListStore
         TodoListFilter filter,
         OffsetPagination pager)
     {
-        var seeder = new SampleDataSeeder(_database);
-        await seeder.SeedAsync();
-        
         var collection = GetCollection();
         var builder = Builders<TodoListEntity>.Filter;
 
         var filters = new List<FilterDefinition<TodoListEntity>>();
 
-        if (filter.Ids is { Length: > 0 })
+        if (filter.Ids.Length > 0)
         {
-            var objectIds = filter.Ids
-                .Where(id => ObjectId.TryParse(id, out _))
-                .Select(ObjectId.Parse)
-                .ToList();
-
-            if (objectIds.Count > 0)
-            {
-                filters.Add(builder.In(x => x.Id, objectIds));
-            }
+            filters.Add(builder.In(x => x.Id, filter.Ids));
         }
 
         if (filter.UserId > 0)
@@ -79,45 +67,102 @@ internal class TodoListStore : ITodoListStore
             .Limit(pager.Take)
             .ToListAsync();
 
-        return items
+        var result = items
             .Select(x => x.ToModel())
             .ToOffsetCollection(pager.Offset, (int)totalCount);
+
+        return result;
+    }
+
+    public async Task<TodoListModel?> GetById(int id)
+    {
+        var collection = GetCollection();
+
+        var entity = await collection
+            .Find(x => x.Id == id)
+            .FirstOrDefaultAsync();
+
+        return entity?.ToModel();
     }
 
     public async Task<TodoListModel> Create(CreateTodoListModel model)
     {
         var collection = GetCollection();
-
-        var entity = new TodoListEntity
-        {
-            Title = model.Title,
-            OwnerId = model.OwnerId,
-            CreatedDate = DateTime.UtcNow
-        };
-
+        
+        var entity = model.ToEntity();
+        
         await collection.InsertOneAsync(entity);
-
+        
         return entity.ToModel();
     }
 
-    public Task Update(UpdateTodoListModel model)
+    public async Task<TodoListModel> Update(UpdateTodoListModel model)
     {
-        throw new NotImplementedException();
+        var collection = GetCollection();
+
+        var update = Builders<TodoListEntity>.Update
+            .Set(x => x.Title, model.Title);
+
+        TodoListEntity updatedEntity = await collection.FindOneAndUpdateAsync(
+            x => x.Id == model.Id,
+            update,
+            new FindOneAndUpdateOptions<TodoListEntity>
+            {
+                ReturnDocument = ReturnDocument.After
+            }
+        );
+
+        return updatedEntity.ToModel();
     }
 
-    public Task Delete(int todoListId)
+    public async Task Delete(int todoListId)
     {
-        throw new NotImplementedException();
+        var collection = GetCollection();
+
+        await collection.DeleteOneAsync(x => x.Id == todoListId);
+    }
+
+    public async Task UpdateUsers(int listId, List<int> userIds)
+    {
+        var collection = GetCollection();
+
+        var update = Builders<TodoListEntity>.Update
+            .Set(x => x.UserIds, userIds);
+
+        await collection.UpdateOneAsync(
+            x => x.Id == listId,
+            update
+        );
+    }
+
+    public async Task AddUser(int listId, int userId)
+    {
+        var collection = GetCollection();
+
+        var update = Builders<TodoListEntity>.Update
+            .AddToSet(x => x.UserIds, userId);
+
+        await collection.UpdateOneAsync(
+            x => x.Id == listId,
+            update
+        );
+    }
+
+    public async Task RemoveUser(int listId, int userId)
+    {
+        var collection = GetCollection();
+
+        var update = Builders<TodoListEntity>.Update
+            .Pull(x => x.UserIds, userId);
+
+        await collection.UpdateOneAsync(
+            x => x.Id == listId,
+            update
+        );
     }
 
     private IMongoCollection<TodoListEntity> GetCollection()
     {
         return _database.GetCollection<TodoListEntity>(DataCollections.TodoLists);
-    }
-
-    // TODO - refactor
-    private IMongoCollection<TodoListEntity> GetUserCollection()
-    {
-        return _database.GetCollection<TodoListEntity>(DataCollections.Users);
     }
 }

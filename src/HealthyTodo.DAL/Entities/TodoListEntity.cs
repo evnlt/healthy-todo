@@ -1,10 +1,8 @@
-﻿using MongoDB.Bson;
+﻿namespace HealthyTodo.DAL.Entities;
 
-namespace HealthyTodo.DAL.Entities;
-
-public class TodoListEntity
+internal class TodoListEntity
 {
-    public ObjectId Id { get; set; } = default!;
+    public int Id { get; set; } = default!;
     public string Title { get; set; } = default!;
     public DateTime CreatedDate { get; set; }
 

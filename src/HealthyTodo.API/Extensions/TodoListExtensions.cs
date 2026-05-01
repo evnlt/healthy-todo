@@ -9,6 +9,10 @@ internal static class TodoListExtensions
     {
         var responseModel = new TodoListResponse
         {
+            Id = model.Id,
+            Title = model.Title,
+            CreatedDate = model.CreatedDate,
+            OwnerId = model.OwnerId
         };
         
         return responseModel;
@@ -18,15 +22,33 @@ internal static class TodoListExtensions
     {
         var responseModel = new CreateTodoListModel
         {
+            Title = model.Title,
+            OwnerId = model.OwnerId
         };
         
         return responseModel;
     }
     
-    public static TodoListFilter ToFilter(this TodoListRequest request) // TODO - unit test
+    public static UpdateTodoListModel ToModel(this UpdateTodoListRequest model, int id, int userId) // TODO - unit test
+    {
+        var responseModel = new UpdateTodoListModel
+        {
+            Id = id,
+            UserId = userId,
+            Title = model.Title,
+        };
+        
+        return responseModel;
+    }
+    
+    public static TodoListFilter ToFilter(this TodoListFilterRequest filterRequest) // TODO - unit test
     {
         var filter = new TodoListFilter
         {
+            Ids = filterRequest.Ids,
+            UserId = filterRequest.UserId,
+            OrderBy = filterRequest.OrderBy,
+            OrderDirection = filterRequest.OrderDirection
         };
 
         return filter;

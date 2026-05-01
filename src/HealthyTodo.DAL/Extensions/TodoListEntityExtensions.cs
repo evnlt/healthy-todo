@@ -3,16 +3,26 @@ using HealthyTodo.Models.TodoList;
 
 namespace HealthyTodo.DAL.Extensions;
 
-public static class TodoListEntityExtensions
+internal static class TodoListEntityExtensions
 {
     public static TodoListModel ToModel(this TodoListEntity entity)
     {
         return new TodoListModel
         {
-            Id = entity.Id.ToString(),
+            Id = entity.Id,
             Title = entity.Title,
             CreatedDate = entity.CreatedDate,
             OwnerId = entity.OwnerId
+        };
+    }
+    
+    public static TodoListEntity ToEntity(this CreateTodoListModel entity)
+    {
+        return new TodoListEntity
+        {
+            Title = entity.Title,
+            OwnerId = entity.OwnerId,
+            CreatedDate = DateTime.UtcNow,
         };
     }
 }

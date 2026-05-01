@@ -1,9 +1,6 @@
-﻿using MongoDB.Bson;
-using MongoDB.Bson.Serialization.Attributes;
+﻿namespace HealthyTodo.DAL.Entities;
 
-namespace HealthyTodo.DAL.Entities;
-
-public class UserEntity
+internal class UserEntity
 {
     public int Id { get; set; }
 }

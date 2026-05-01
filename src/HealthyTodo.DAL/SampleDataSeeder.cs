@@ -29,7 +29,14 @@ public class SampleDataSeeder
         {
             new() { Id = 1 },
             new() { Id = 2 },
-            new() { Id = 3 }
+            new() { Id = 3 },
+            new() { Id = 4 },
+            new() { Id = 5 },
+            new() { Id = 6 },
+            new() { Id = 7 },
+            new() { Id = 8 },
+            new() { Id = 9 },
+            new() { Id = 10 },
         };
 
         await _users.InsertManyAsync(users);
@@ -56,7 +63,48 @@ public class SampleDataSeeder
                 CreatedDate = DateTime.UtcNow,
                 OwnerId = 3,
                 UserIds = [1, 2]
-            }
+            },
+            new()
+            {
+                Title = "Work Tasks 2",
+                CreatedDate = DateTime.UtcNow,
+                OwnerId = 1,
+                UserIds = [2, 3, 4]
+            },
+            new()
+            {
+                Title = "Personal 2",
+                CreatedDate = DateTime.UtcNow,
+                OwnerId = 4,
+                UserIds = [1, 3, 7]
+            },
+            new()
+            {
+                Title = "Shared Project 2",
+                CreatedDate = DateTime.UtcNow,
+                OwnerId = 6,
+                UserIds = [1, 2, 6, 7]
+            },new()
+            {
+                Title = "Work Tasks 3",
+                CreatedDate = DateTime.UtcNow,
+                OwnerId = 4,
+                UserIds = [2, 3]
+            },
+            new()
+            {
+                Title = "Personal 3",
+                CreatedDate = DateTime.UtcNow,
+                OwnerId = 8,
+                UserIds = [1, 4, 8]
+            },
+            new()
+            {
+                Title = "Shared Project 3",
+                CreatedDate = DateTime.UtcNow,
+                OwnerId = 10,
+                UserIds = [1, 2, 5, 7]
+            },
         };
 
         await _todoLists.InsertManyAsync(todoLists);
