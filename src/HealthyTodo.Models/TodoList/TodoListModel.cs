@@ -2,10 +2,10 @@
 
 public class TodoListModel
 {
-    public int Id { get; set; }
+    public string Id { get; set; } = default!;
     public string Title { get; set; } = default!;
     public DateTime CreatedDate { get; set; }
     
     public int OwnerId { get; set; }
-    public List<int> SharedUserIds { get; set; } = default!;
+    public List<int> SharedUserIds { get; set; } = [];
 }

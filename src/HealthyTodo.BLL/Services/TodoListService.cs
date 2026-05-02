@@ -25,9 +25,9 @@ public class TodoListService : ITodoListService
         return await _todoListStore.GetMany(filter, pager);
     }
 
-    public async Task<TodoListModel> GetById(int id, int userId)
+    public async Task<TodoListModel> GetById(string listId, int userId)
     {
-        var list = await _todoListStore.GetById(id);
+        var list = await _todoListStore.GetById(listId);
 
         if (list == null)
         {
@@ -68,9 +68,9 @@ public class TodoListService : ITodoListService
         return await _todoListStore.Update(model);
     }
 
-    public async Task<bool> Delete(int id, int userId)
+    public async Task<bool> Delete(string listId, int userId)
     {
-        var existing = await _todoListStore.GetById(id);
+        var existing = await _todoListStore.GetById(listId);
 
         if (existing == null)
         {
@@ -82,12 +82,12 @@ public class TodoListService : ITodoListService
             throw new ForbiddenException(ErrorMessages.OnlyOwnerCanDelete);
         }
 
-        await _todoListStore.Delete(id);
+        await _todoListStore.Delete(listId);
 
         return true;
     }
 
-    public async Task<bool> AddUser(int listId, int userId, int targetUserId)
+    public async Task<bool> AddUser(string listId, int userId, int targetUserId)
     {
         var list = await _todoListStore.GetById(listId);
 
@@ -118,7 +118,7 @@ public class TodoListService : ITodoListService
         return true;
     }
 
-    public async Task<List<int>> GetUsers(int listId, int userId)
+    public async Task<List<int>> GetUsers(string listId, int userId)
     {
         var list = await _todoListStore.GetById(listId);
 
@@ -135,7 +135,7 @@ public class TodoListService : ITodoListService
         return list.SharedUserIds;
     }
 
-    public async Task<bool> RemoveUser(int listId, int userId, int targetUserId)
+    public async Task<bool> RemoveUser(string listId, int userId, int targetUserId)
     {
         var list = await _todoListStore.GetById(listId);
 

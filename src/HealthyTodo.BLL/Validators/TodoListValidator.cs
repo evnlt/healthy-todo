@@ -8,7 +8,7 @@ namespace HealthyTodo.BLL.Validators;
 public class TodoListValidator : ITodoListValidator
 {
     private const int MaxPageSize = 100;
-    private const int MaxTodoListTitleLength = 255; // TODO - put 255 in a db constant 
+    private const int MaxTodoListTitleLength = 255; // TODO - put in a db constant 
     
     public Task Validate(TodoListFilter filter, OffsetPagination pager)
     {
@@ -16,13 +16,15 @@ public class TodoListValidator : ITodoListValidator
         ArgumentNullException.ThrowIfNull(pager);
 
         if (filter.UserId <= 0)
+        {
             throw new BadRequestException("UserId must be greater than 0");
+        }
 
         if (filter.Ids.Length != 0)
         {
-            if (filter.Ids.Any(x => x <= 0))
+            if (filter.Ids.Any(string.IsNullOrEmpty))
             {
-                throw new BadRequestException("Ids must be greater than 0");
+                throw new BadRequestException("Ids must not be null or empty");
             }
 
             if (filter.Ids.Length != filter.Ids.Distinct().Count())
@@ -75,9 +77,9 @@ public class TodoListValidator : ITodoListValidator
     {
         ArgumentNullException.ThrowIfNull(model);
 
-        if (model.Id <= 0)
+        if (string.IsNullOrEmpty(model.Id))
         {
-            throw new BadRequestException("Id must be greater than 0");
+            throw new BadRequestException("Id must not be null or empty");
         }
 
         if (string.IsNullOrWhiteSpace(model.Title))
@@ -90,7 +92,7 @@ public class TodoListValidator : ITodoListValidator
             throw new BadRequestException("Title cannot exceed 255 characters");
         }
 
-        if (model.UserId <= 0)
+        if (model.UserId <= 0) 
         {
             throw new BadRequestException("UserId must be greater than 0");
         }

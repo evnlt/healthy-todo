@@ -1,4 +1,5 @@
-﻿using HealthyTodo.API.Extensions;
+﻿using System.ComponentModel.DataAnnotations;
+using HealthyTodo.API.Extensions;
 using HealthyTodo.API.Models.Common.Extensions;
 using HealthyTodo.API.Models.TodoList;
 using HealthyTodo.BLL.Abstraction.Services;
@@ -13,23 +14,6 @@ namespace HealthyTodo.API.Controllers;
 [Route("api/v{version:apiVersion}/todolists")]
 public class TodoListController : ControllerBase
 {
-    // TODO - remove use cases?
-    // get one existing todo list (owner or shared)
-    // get many with filter and pagination (owner or shared)
-    // create new todo list
-    // update a todo list (owner or shared)
-    // delete a todo list (only the owner)
-
-    // share a todo list with a user (owner or shared)
-    // - cannot add duplicate user
-    // - owner should not be added to UserIds
-
-    // get user to which a certain todo list is connected
-
-    // remove a certain user from todo list
-    // - user can remove themselves
-    // - shared users can delete everyone, except the owner
-
     private readonly ITodoListService _todoListService;
 
     public TodoListController(ITodoListService todoListService)
@@ -39,7 +23,7 @@ public class TodoListController : ControllerBase
 
     // GET many (owner or shared)
     [HttpGet("")]
-    public async Task<List<TodoListResponse>> GetMany([FromQuery] TodoListFilterRequest filterRequest) // TODO - userId
+    public async Task<List<TodoListResponse>> GetMany([FromQuery] TodoListFilterRequest filterRequest)
     {
         TodoListFilter filter = filterRequest.ToFilter();
         OffsetPagination pager = filterRequest.ToPager();
@@ -50,10 +34,10 @@ public class TodoListController : ControllerBase
     }
 
     // GET one (owner or shared)
-    [HttpGet("{id}")]
-    public async Task<IActionResult> GetDetails([FromRoute] int id, [FromQuery] int userId)
+    [HttpGet("{listId}")]
+    public async Task<IActionResult> GetDetails([FromRoute] string listId, [FromQuery, Required] int userId)
     {
-        var model = await _todoListService.GetById(id, userId);
+        var model = await _todoListService.GetById(listId, userId);
 
         return Ok(model.ToResponse());
     }
@@ -64,18 +48,18 @@ public class TodoListController : ControllerBase
         CreateTodoListModel model = request.ToModel();
         TodoListModel todoList = await _todoListService.Create(model);
 
-        return CreatedAtAction(nameof(GetDetails), new { id = todoList.Id, userId = todoList.OwnerId },
+        return CreatedAtAction(nameof(GetDetails), new { listId = todoList.Id, userId = todoList.OwnerId },
             todoList.ToResponse());
     }
 
     // UPDATE (owner or shared)
-    [HttpPut("{id}")]
+    [HttpPut("{listId}")]
     public async Task<IActionResult> Update(
-        [FromRoute] int id,
-        [FromQuery] int userId,
+        [FromRoute] string listId,
+        [FromQuery, Required] int userId,
         [FromBody] UpdateTodoListRequest request)
     {
-        UpdateTodoListModel model = request.ToModel(id, userId);
+        UpdateTodoListModel model = request.ToModel(listId, userId);
 
         TodoListModel result = await _todoListService.Update(model);
 
@@ -83,10 +67,10 @@ public class TodoListController : ControllerBase
     }
     
     // DELETE (only owner)
-    [HttpDelete("{id}")]
-    public async Task<IActionResult> Delete([FromRoute] int id, [FromQuery] int userId)
+    [HttpDelete("{listId}")]
+    public async Task<IActionResult> Delete([FromRoute] string listId, [FromQuery, Required] int userId)
     {
-        var success = await _todoListService.Delete(id, userId);
+        var success = await _todoListService.Delete(listId, userId);
 
         if (!success)
         {
@@ -97,13 +81,13 @@ public class TodoListController : ControllerBase
     }
     
     // SHARE with user (owner or shared)
-    [HttpPost("{id}/users")]
+    [HttpPost("{listId}/users")]
     public async Task<IActionResult> AddUser(
-        [FromRoute] int id,
-        [FromQuery] int userId,
+        [FromRoute] string listId,
+        [FromQuery, Required] int userId,
         [FromBody] AddUserToTodoListRequest request)
     {
-        var success = await _todoListService.AddUser(id, userId, request.UserId);
+        var success = await _todoListService.AddUser(listId, userId, request.UserId);
 
         if (!success)
         {
@@ -114,24 +98,24 @@ public class TodoListController : ControllerBase
     }
     
     // GET users of list (owner or shared)
-    [HttpGet("{id}/users")]
+    [HttpGet("{listId}/users")]
     public async Task<IActionResult> GetUsers(
-        [FromRoute] int id,
-        [FromQuery] int userId)
+        [FromRoute] string listId,
+        [FromQuery, Required] int userId)
     {
-        var users = await _todoListService.GetUsers(id, userId);
+        var users = await _todoListService.GetUsers(listId, userId);
 
         return Ok(users);
     }
 
     // REMOVE user (owner or shared)
-    [HttpDelete("{id}/users/{targetUserId}")]
+    [HttpDelete("{listId}/users/{targetUserId}")]
     public async Task<IActionResult> RemoveUser(
-        [FromRoute] int id,
+        [FromRoute] string listId,
         [FromRoute] int targetUserId,
-        [FromQuery] int userId)
+        [FromQuery, Required] int userId)
     {
-        var success = await _todoListService.RemoveUser(id, userId, targetUserId);
+        var success = await _todoListService.RemoveUser(listId, userId, targetUserId);
 
         if (!success)
         {

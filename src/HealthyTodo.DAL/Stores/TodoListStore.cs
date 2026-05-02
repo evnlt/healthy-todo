@@ -74,7 +74,7 @@ internal class TodoListStore : ITodoListStore
         return result;
     }
 
-    public async Task<TodoListModel?> GetById(int id)
+    public async Task<TodoListModel?> GetById(string id)
     {
         var collection = GetCollection();
 
@@ -115,14 +115,14 @@ internal class TodoListStore : ITodoListStore
         return updatedEntity.ToModel();
     }
 
-    public async Task Delete(int todoListId)
+    public async Task Delete(string id)
     {
         var collection = GetCollection();
 
-        await collection.DeleteOneAsync(x => x.Id == todoListId);
+        await collection.DeleteOneAsync(x => x.Id == id);
     }
 
-    public async Task UpdateUsers(int listId, List<int> userIds)
+    public async Task UpdateUsers(string listId, List<int> userIds)
     {
         var collection = GetCollection();
 
@@ -135,7 +135,7 @@ internal class TodoListStore : ITodoListStore
         );
     }
 
-    public async Task AddUser(int listId, int userId)
+    public async Task AddUser(string listId, int userId)
     {
         var collection = GetCollection();
 
@@ -148,7 +148,7 @@ internal class TodoListStore : ITodoListStore
         );
     }
 
-    public async Task RemoveUser(int listId, int userId)
+    public async Task RemoveUser(string listId, int userId)
     {
         var collection = GetCollection();
 

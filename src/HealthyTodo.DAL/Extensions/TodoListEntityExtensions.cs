@@ -16,12 +16,12 @@ internal static class TodoListEntityExtensions
         };
     }
     
-    public static TodoListEntity ToEntity(this CreateTodoListModel entity)
+    public static TodoListEntity ToEntity(this CreateTodoListModel model)
     {
         return new TodoListEntity
         {
-            Title = entity.Title,
-            OwnerId = entity.OwnerId,
+            Title = model.Title,
+            OwnerId = model.OwnerId,
             CreatedDate = DateTime.UtcNow,
         };
     }

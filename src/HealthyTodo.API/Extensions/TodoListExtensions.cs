@@ -5,7 +5,7 @@ namespace HealthyTodo.API.Extensions;
 
 internal static class TodoListExtensions
 {
-    public static TodoListResponse ToResponse(this TodoListModel model) // TODO - unit test
+    public static TodoListResponse ToResponse(this TodoListModel model)
     {
         var responseModel = new TodoListResponse
         {
@@ -18,30 +18,30 @@ internal static class TodoListExtensions
         return responseModel;
     }
     
-    public static CreateTodoListModel ToModel(this CreateTodoListRequest model) // TODO - unit test
+    public static CreateTodoListModel ToModel(this CreateTodoListRequest request)
     {
         var responseModel = new CreateTodoListModel
         {
-            Title = model.Title,
-            OwnerId = model.OwnerId
+            Title = request.Title,
+            OwnerId = request.OwnerId
         };
         
         return responseModel;
     }
     
-    public static UpdateTodoListModel ToModel(this UpdateTodoListRequest model, int id, int userId) // TODO - unit test
+    public static UpdateTodoListModel ToModel(this UpdateTodoListRequest request, string listId, int userId)
     {
         var responseModel = new UpdateTodoListModel
         {
-            Id = id,
+            Id = listId,
             UserId = userId,
-            Title = model.Title,
+            Title = request.Title,
         };
         
         return responseModel;
     }
     
-    public static TodoListFilter ToFilter(this TodoListFilterRequest filterRequest) // TODO - unit test
+    public static TodoListFilter ToFilter(this TodoListFilterRequest filterRequest)
     {
         var filter = new TodoListFilter
         {

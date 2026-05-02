@@ -43,15 +43,12 @@ builder.Services
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-//builder.Services.AddOpenApi(); // TODO - ?
 
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    //app.MapOpenApi(); // TODO - ?
-
     app.UseSwagger();
     app.UseSwaggerUI();
 }
@@ -85,11 +82,10 @@ app.UseExceptionHandler(app =>
     });
 });
 
+using (var scope = app.Services.CreateScope())
+{
+    var seeder = scope.ServiceProvider.GetRequiredService<SampleDataSeeder>();
+    await seeder.SeedAsync();
+}
+
 app.Run();
-
-using var scope = app.Services.CreateScope();
-var seeder = scope.ServiceProvider.GetRequiredService<SampleDataSeeder>();
-await seeder.SeedAsync();
-
-
-// TODO - check everything for internal

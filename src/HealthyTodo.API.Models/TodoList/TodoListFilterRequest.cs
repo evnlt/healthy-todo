@@ -1,10 +1,13 @@
-﻿using HealthyTodo.API.Models.Common;
+﻿using System.ComponentModel.DataAnnotations;
+using HealthyTodo.API.Models.Common;
 using HealthyTodo.Common.Constants;
 
 namespace HealthyTodo.API.Models.TodoList;
 
 public class TodoListFilterRequest : FilterBaseRequest<TodoListOrderField>
 {
-    public int[] Ids { get; set; } = [];
+    public string[] Ids { get; set; } = [];
+    
+    [Required]
     public int UserId { get; set; }
 }
