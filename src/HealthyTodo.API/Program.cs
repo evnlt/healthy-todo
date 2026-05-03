@@ -84,6 +84,9 @@ app.UseExceptionHandler(app =>
 
 using (var scope = app.Services.CreateScope())
 {
+    var mongoInitializer = scope.ServiceProvider.GetRequiredService<MongoInitializer>();
+    await mongoInitializer.InitializeAsync();
+    
     var seeder = scope.ServiceProvider.GetRequiredService<SampleDataSeeder>();
     await seeder.SeedAsync();
 }

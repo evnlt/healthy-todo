@@ -22,7 +22,7 @@ public class TodoListController : ControllerBase
     }
 
     // GET many (owner or shared)
-    [HttpGet("")]
+    [HttpGet(Name = "GetTodoLists")]
     public async Task<List<TodoListResponse>> GetMany([FromQuery] TodoListFilterRequest filterRequest)
     {
         TodoListFilter filter = filterRequest.ToFilter();
@@ -34,7 +34,7 @@ public class TodoListController : ControllerBase
     }
 
     // GET one (owner or shared)
-    [HttpGet("{listId}")]
+    [HttpGet("{listId}", Name = "GetTodoListById")]
     public async Task<IActionResult> GetDetails([FromRoute] string listId, [FromQuery, Required] int userId)
     {
         var model = await _todoListService.GetById(listId, userId);
@@ -42,7 +42,7 @@ public class TodoListController : ControllerBase
         return Ok(model.ToResponse());
     }
 
-    [HttpPost("")]
+    [HttpPost(Name = "CreateTodoList")]
     public async Task<IActionResult> Create(CreateTodoListRequest request)
     {
         CreateTodoListModel model = request.ToModel();
@@ -53,7 +53,7 @@ public class TodoListController : ControllerBase
     }
 
     // UPDATE (owner or shared)
-    [HttpPut("{listId}")]
+    [HttpPut("{listId}", Name = "UpdateTodoList")]
     public async Task<IActionResult> Update(
         [FromRoute] string listId,
         [FromQuery, Required] int userId,
@@ -67,7 +67,7 @@ public class TodoListController : ControllerBase
     }
     
     // DELETE (only owner)
-    [HttpDelete("{listId}")]
+    [HttpDelete("{listId}", Name = "DeleteTodoList")]
     public async Task<IActionResult> Delete([FromRoute] string listId, [FromQuery, Required] int userId)
     {
         var success = await _todoListService.Delete(listId, userId);
@@ -81,7 +81,7 @@ public class TodoListController : ControllerBase
     }
     
     // SHARE with user (owner or shared)
-    [HttpPost("{listId}/users")]
+    [HttpPost("{listId}/users", Name = "AddUserToTodoList")]
     public async Task<IActionResult> AddUser(
         [FromRoute] string listId,
         [FromQuery, Required] int userId,
@@ -98,7 +98,7 @@ public class TodoListController : ControllerBase
     }
     
     // GET users of list (owner or shared)
-    [HttpGet("{listId}/users")]
+    [HttpGet("{listId}/users", Name = "GetTodoListUsers")]
     public async Task<IActionResult> GetUsers(
         [FromRoute] string listId,
         [FromQuery, Required] int userId)
@@ -109,7 +109,7 @@ public class TodoListController : ControllerBase
     }
 
     // REMOVE user (owner or shared)
-    [HttpDelete("{listId}/users/{targetUserId}")]
+    [HttpDelete("{listId}/users/{targetUserId}", Name = "RemoveUserFromTodoList")]
     public async Task<IActionResult> RemoveUser(
         [FromRoute] string listId,
         [FromRoute] int targetUserId,

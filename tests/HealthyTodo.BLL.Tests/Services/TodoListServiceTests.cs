@@ -5,6 +5,7 @@ using HealthyTodo.BLL.Exceptions;
 using HealthyTodo.BLL.Services;
 using HealthyTodo.DAL.Abstraction;
 using HealthyTodo.Models.TodoList;
+using Microsoft.Extensions.Logging;
 using Moq;
 
 namespace HealthyTodo.BLL.Tests.Services;
@@ -14,6 +15,7 @@ public class TodoListServiceTests
     private readonly Fixture _fixture;
     private readonly Mock<ITodoListStore> _storeMock;
     private readonly Mock<ITodoListValidator> _validatorMock;
+    private readonly Mock<ILogger<TodoListService>> _loggerMock;
 
     private readonly TodoListService _sut;
 
@@ -22,8 +24,9 @@ public class TodoListServiceTests
         _fixture = new Fixture();
         _storeMock = new Mock<ITodoListStore>();
         _validatorMock = new Mock<ITodoListValidator>();
+        _loggerMock = new Mock<ILogger<TodoListService>>();
 
-        _sut = new TodoListService(_storeMock.Object, _validatorMock.Object);
+        _sut = new TodoListService(_storeMock.Object, _validatorMock.Object, _loggerMock.Object);
     }
 
     [Fact]

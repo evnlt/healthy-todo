@@ -12,5 +12,5 @@ internal class TodoListEntity
     public DateTime CreatedDate { get; set; }
 
     public int OwnerId { get; set; } // owns the todo list (rights: everything AND delete)
-    public List<int> UserIds { get; set; } = new(); // shared users, have access to this todo list (rights: everything EXCEPT delete)
+    public List<int> UserIds { get; set; } = []; // shared users, have access to this todo list (rights: everything EXCEPT delete)
 }

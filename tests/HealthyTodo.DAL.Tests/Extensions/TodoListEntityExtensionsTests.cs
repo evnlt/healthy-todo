@@ -26,7 +26,8 @@ public class TodoListEntityExtensionsTests
             Id = entity.Id,
             Title = entity.Title,
             CreatedDate = entity.CreatedDate,
-            OwnerId = entity.OwnerId
+            OwnerId = entity.OwnerId,
+            SharedUserIds = entity.UserIds
         };
 
         // Act

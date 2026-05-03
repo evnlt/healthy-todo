@@ -27,10 +27,10 @@ public static class ServiceCollectionExtensions
             !.GetDatabase(settings.DatabaseName));
 
         services
-            .AddTransient<ITodoListStore, TodoListStore>()
-            .AddTransient<IUserStore, UserStore>();
+            .AddTransient<ITodoListStore, TodoListStore>();
         
         services
+            .AddScoped<MongoInitializer>()
             .AddScoped<SampleDataSeeder>();
 
         return services;

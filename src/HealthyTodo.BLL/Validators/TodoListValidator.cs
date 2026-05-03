@@ -5,7 +5,7 @@ using HealthyTodo.Models.TodoList;
 
 namespace HealthyTodo.BLL.Validators;
 
-public class TodoListValidator : ITodoListValidator
+internal class TodoListValidator : ITodoListValidator
 {
     private const int MaxPageSize = 100;
     private const int MaxTodoListTitleLength = 255; // TODO - put in a db constant 
